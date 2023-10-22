@@ -70,17 +70,17 @@ def inicio():
 #     return render_template('detalle.html', persona=persona)
 
 
-@app.route('/profile')
+@app.route('/perfil')
 def perfil():
     cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 
-    # Check if user is loggedin
+    # Revisa si el usuario está en sesión
     if 'loggedin' in session:
         cursor.execute('SELECT * FROM persona WHERE id = %s', [session['id']])
         cuenta = cursor.fetchone()
-        # Show the profile page with account info
+        # Muestra la información del usuario
         return render_template('detalle.html', persona=cuenta)
-    # User is not loggedin redirect to login page
+    # Si el usuario no está en sesión lo manda a logearse
     return redirect(url_for('login'))
 
 
@@ -132,10 +132,10 @@ def login():
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-    # Check if "username", "password" and "email" POST requests exist (user submitted form)
+    # Verifica si "usuario", "contrasenia" y "email" POST existen (lo enviado por el usuario)
     if request.method == 'POST' and 'usuario' in request.form and 'contrasenia' in request.form and 'email' \
             in request.form:
-        # Create variables for easy access
+        # Formulario para el registro
         usuario = request.form['usuario']
         departamento = request.form['departamento']
         contrasenia = request.form['contrasenia']
@@ -143,7 +143,7 @@ def register():
 
         _hashed_password = generate_password_hash(contrasenia)
 
-        # Check if account exists using MySQL
+        #Verifica que la cuenta exista en la tabla
         cursor.execute('SELECT * FROM persona WHERE usuario = %s', (usuario,))
         cuenta = cursor.fetchone()
         print(cuenta)
