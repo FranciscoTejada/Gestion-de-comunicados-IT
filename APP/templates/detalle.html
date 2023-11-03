@@ -1,0 +1,11 @@
+{% extends 'layout.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<h1>Tus datos</h1>
+<div>Usuario: {{persona.usuario}}</div>
+<div>Email: {{persona.email}}</div>
+<div>Departamento: {{persona.departamento}}</div>
+<br/>
+{% endblock %}
