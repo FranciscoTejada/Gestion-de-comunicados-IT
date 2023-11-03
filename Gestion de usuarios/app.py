@@ -5,6 +5,8 @@ import psycopg2.extras
 from flask import Flask, render_template, request, url_for, flash, session
 from flask_migrate import Migrate
 # from datetime import datetime
+from flask import Flask
+import pytz
 
 # from werkzeug.security import check_password_hash, generate_password_hash
 # from sqlalchemy.testing.pickleable import User
@@ -16,6 +18,10 @@ from forms import PersonaForm
 from models import *
 
 app = Flask(__name__)
+
+# Configura la zona horaria para Argentina
+argentina_tz = pytz.timezone('America/Argentina/Buenos_Aires')
+app.config['TIMEZONE'] = argentina_tz
 
 # Configuración de la bd
 USER_DB = 'postgres'
@@ -39,6 +45,9 @@ migrate.init_app(app, db)
 # Configuración de flask-wtf
 app.config['SECRET_KEY'] = 'llave_secreta'
 
+# Crea las tablas en la base de datos dentro del contexto de la aplicación
+with app.app_context():
+    db.create_all()
 
 @app.route('/')
 @app.route('/index')
@@ -228,7 +237,7 @@ def comentar(ticket_id):
         db.session.add(nuevo_comentario)
         db.session.commit()
 
-    return redirect(url_for('ver_detalleTick', id=ticket_id))
+    return redirect(url_for('ver_detalle_Tick', id=ticket_id))
 
 
 @app.route('/cambiar_estado/<int:ticket_id>', methods=['POST'])
@@ -237,10 +246,13 @@ def cambiar_estado(ticket_id):
     # Obtén el ticket de la base de datos
     ticket = Tickets.query.get(ticket_id)
     if ticket:
-        # Actualiza el estado del ticket
+        # cambia el estado y registra el cambio
         ticket.estado = nuevo_estado
-        db.session.commit()
 
+        # registra el cambio de estado con el nombre de usuario actual
+        cambio_estado = CambiosEstadoTicket(ticket=ticket, usuario=session['usuario'], estado=nuevo_estado)
+        db.session.add(cambio_estado)
+        db.session.commit()
     return redirect(url_for('ver_ticket'))
 
 

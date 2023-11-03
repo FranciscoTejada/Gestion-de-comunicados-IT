@@ -11,12 +11,22 @@
             <label for="nuevo_estado">Cambiar Estado:</label>
             <select name="nuevo_estado" id="nuevo_estado">
                 <option value="Pendiente">Pendiente</option>
-                <option value="En Progreso">En Progreso</option>
+                <option value="En Proceso">En Progreso</option>
                 <option value="Finalizado">Finalizado</option>
             </select>
             <button type="submit">Cambiar Estado</button>
         </form>
     </div>
+<div>
+    Cambios de Estado:
+    <ul>
+        {% for cambio in ticket.cambios_estado %}
+            <li>
+                {{ cambio.usuario }} cambió el estado a {{ cambio.estado }} el {{ cambio.fecha.astimezone(config['TIMEZONE']).strftime('%Y-%m-%d %H:%M') }}
+            </li>
+        {% endfor %}
+    </ul>
+</div>
 <div>Creador: {{ticket.creador}}</div>
 <div>
     <strong>Comentarios:</strong>
