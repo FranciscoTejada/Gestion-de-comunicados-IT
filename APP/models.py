@@ -1,5 +1,6 @@
 from datetime import datetime
 
+import pytz
 from flask import session
 
 from app import db
@@ -30,7 +31,7 @@ class Tickets(db.Model):
     titulo = db.Column(db.String(250), nullable=False)
     descripcion = db.Column(db.String(255), nullable=False)
     estado = db.Column(db.String(20), nullable=False)
-    fecha_creacion = db.Column(db.DateTime, default=datetime.utcnow)
+    fecha_creacion = db.Column(db.DateTime, default=datetime.now(pytz.timezone('America/Argentina/Buenos_Aires')).strftime('%Y-%m-%d %H:%M:%S'))
     creador = db.Column(db.String(100), nullable=True)
     comentarios = db.relationship('Comentario', backref='ticket', lazy=True)
 
@@ -65,3 +66,11 @@ class Comentario(db.Model):
         nuevo_comentario = Comentario(contenido=contenido, ticket_id=self.id, creador=None)
         db.session.add(nuevo_comentario)
         db.session.commit()
+
+class CambiosEstadoTicket(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    ticket_id = db.Column(db.Integer, db.ForeignKey('tickets.id'))
+    ticket = db.relationship('Tickets', backref='cambios_estado')
+    usuario = db.Column(db.String(100))
+    estado = db.Column(db.String(20))
+    fecha = db.Column(db.DateTime, default=datetime.now(pytz.timezone('America/Argentina/Buenos_Aires')).strftime('%Y-%m-%d %H:%M:%S'))

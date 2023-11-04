@@ -18,6 +18,10 @@ from models import *
 
 app = Flask(__name__)
 
+# Configura la zona horaria para Argentina
+argentina_tz = pytz.timezone('America/Argentina/Buenos_Aires')
+app.config['TIMEZONE'] = argentina_tz
+
 # Configuración de la bd
 USER_DB = 'postgres'
 PASS_BD = 'admin'
@@ -247,15 +251,16 @@ def comentar(ticket_id):
 @app.route('/cambiar_estado/<int:ticket_id>', methods=['POST'])
 def cambiar_estado(ticket_id):
     nuevo_estado = request.form['nuevo_estado']
-    # Obtén el ticket de la base de datos
     ticket = Tickets.query.get(ticket_id)
     if ticket:
-        # Actualiza el estado del ticket
+        # Cambia el estado
         ticket.estado = nuevo_estado
+
+        # Registra el cambio de estado
+        cambio_estado = CambiosEstadoTicket(ticket=ticket, usuario=session['usuario'], estado=nuevo_estado)
+        db.session.add(cambio_estado)
         db.session.commit()
-
-    return redirect(url_for('ver_ticket'))
-
+    return redirect(url_for('ver_ticket', ticket_id=ticket_id))
 
 @app.route('/ver_ticket')
 def ver_ticket():
