@@ -1,0 +1,95 @@
+{% extends 'layout.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+
+    <a href="{{url_for('indexTicket')}}" class="btn btn-dark">Añadir Ticket</a>
+<style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #1e1111;
+            text-align: left;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #c4c4c4;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #ebe7e7;
+        }
+    </style>
+<div>
+    <h2>Tickets pendientes y en proceso</h2>
+        <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Título</th>
+                <th>Descripción</th>
+                <th>Estado</th>
+                <th>Creador</th>
+                <th>Fecha de Creación</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for ticket in tickets %}
+            {% if ticket.estado in ['Pendiente', 'En Proceso'] %}
+                <tr>
+                    <td>{{ ticket.id }}</td>
+                    <td>{{ ticket.titulo }}</td>
+                    <td>{{ ticket.descripcion }}</td>
+                    <td class="{{ ticket.estado|lower }}-color"> {{ticket.estado}}</td>
+                    <td>{{ ticket.creador }}</td>
+                    <td>{{ ticket.fecha_creacion.strftime('%Y-%m-%d %H:%M') }}</td>
+                   <td><a href="{{ url_for('ver_detalle_Tick', id=ticket.id) }}">Modificar</a></td>
+                </tr>
+                {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div>
+    <h2>Tickets finalizados</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Título</th>
+                <th>Descripción</th>
+                <th>Estado</th>
+                <th>Creador</th>
+                <th>Fecha de Creación</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for ticket in tickets %}
+                {% if ticket.estado == 'Finalizado' %}
+                    <tr class="finalizado">
+                        <td>{{ ticket.id }}</td>
+                        <td>{{ ticket.titulo }}</td>
+                        <td>{{ ticket.descripcion }}</td>
+                        <td class="{{ ticket.estado|lower }}-color">{{ ticket.estado }}</td>
+                        <td>{{ ticket.creador }}</td>
+                        <td>{{ ticket.fecha_creacion.strftime('%Y-%m-%d %H:%M') }}</td>
+                        <td><a href="{{ url_for('ver_detalle_Tick', id=ticket.id) }}">Modificar</a></td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

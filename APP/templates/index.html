@@ -1,0 +1,35 @@
+{% extends 'layout.html.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+    Total de usuarios: {{total_personas}}
+<div>
+    <a href="{{url_for('login')}}">Iniciar sesión</a>
+</div>
+<div>
+    <table border="5">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Usuario</th>
+                <th>Email</th>
+                <th>Departamento</th>
+                <th></th>
+
+            </tr>
+        </thead>
+        <tbody>
+            {% for persona in personas %}
+                <tr>
+                    <td>{{persona.id}}</td>
+                    <td>{{persona.usuario}}</td>
+                    <td>{{persona.email}}</td>
+                    <td>{{persona.departamento}}</td>
+                    <td><a href="ver/{{persona.id}}">Ver</a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
