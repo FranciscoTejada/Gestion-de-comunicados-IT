@@ -10,3 +10,4 @@ Gestion de usuarios/__pycache__/app.cpython-310.pyc
 *.xml
 *.iml
 venv/
+env/

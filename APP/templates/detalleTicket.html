@@ -17,6 +17,16 @@
             <button type="submit">Cambiar Estado</button>
         </form>
     </div>
+<div>
+    Cambios de Estado:
+    <ul>
+        {% for cambio in ticket.cambios_estado %}
+            <li>
+                {{ cambio.usuario }} cambió el estado a {{ cambio.estado }} el {{ cambio.fecha.astimezone(config['TIMEZONE']).strftime('%Y-%m-%d %H:%M') }}
+            </li>
+        {% endfor %}
+    </ul>
+</div>
 <div>Creador: {{ticket.creador}}</div>
 <div class="comment">
     <strong>Comentarios:</strong>
