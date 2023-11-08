@@ -32,7 +32,7 @@ class Tickets(db.Model):
     estado = db.Column(db.String(20), nullable=False)
     fecha_creacion = db.Column(db.DateTime,
                                default=datetime.now(pytz.timezone('America/Argentina/Buenos_Aires')).strftime(
-                                   '%Y-%m-%d %H:%M:%S'))
+                                   '%d-%m-%y %H:%M:%S'))
     creador = db.Column(db.String(100), nullable=True)
     comentarios = db.relationship('Comentario', backref='ticket', lazy=True)
 
@@ -76,4 +76,4 @@ class CambiosEstadoTicket(db.Model):
     usuario = db.Column(db.String(100))
     estado = db.Column(db.String(20))
     fecha = db.Column(db.DateTime, default=datetime.now(pytz.timezone('America/Argentina/Buenos_Aires')).strftime
-    ('%Y-%m-%d %H:%M:%S'))
+    ('%d-%m-%y %H:%M:%S'))

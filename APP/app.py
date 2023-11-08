@@ -260,7 +260,7 @@ def cambiar_estado(ticket_id):
         cambio_estado = CambiosEstadoTicket(ticket=ticket, usuario=session['usuario'], estado=nuevo_estado,
                                             fecha=datetime.now(
                                                 pytz.timezone('America/Argentina/Buenos_Aires')).strftime(
-                                                '%Y-%m-%d %H:%M:%S'))
+                                                '%d-%m-%y %H:%M:%S'))
         db.session.add(cambio_estado)
         db.session.commit()
     return redirect(url_for('ver_ticket', ticket_id=ticket_id))

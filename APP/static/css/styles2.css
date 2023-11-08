@@ -196,9 +196,13 @@ color:#fff;
 }
 
 .creador{
-    color: #3498DB;
+    color: #007BFF;
     font-weight: bold;
 
+}
+.cambioEstado{
+    color: #007BFF;
+    font-weight: bold;
 }
 .logoHome{
   position: absolute;

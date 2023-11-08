@@ -22,7 +22,7 @@
     <ul>
         {% for cambio in ticket.cambios_estado %}
             <li>
-                {{ cambio.usuario }} cambió el estado a {{ cambio.estado }} el {{ cambio.fecha.astimezone(config['TIMEZONE']).strftime('%Y-%m-%d %H:%M') }}
+                <span class="cambioEstado"> {{ cambio.usuario }}</span> cambió el estado a {{ cambio.estado }} el día {{ cambio.fecha.astimezone(config['TIMEZONE']).strftime('%d-%m-%y a la hora %H:%M') }}
             </li>
         {% endfor %}
     </ul>
