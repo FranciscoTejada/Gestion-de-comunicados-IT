@@ -17,6 +17,8 @@
             <button type="submit">Cambiar Estado</button>
         </form>
     </div>
+<!--agregar fecha-->
+<div>Creado el dia {{ticket.fecha_creacion.astimezone(config['TIMEZONE']).strftime('%d-%m-%y a la hora %H:%M')}}</div>
 <div>
     Cambios de Estado:
     <ul>

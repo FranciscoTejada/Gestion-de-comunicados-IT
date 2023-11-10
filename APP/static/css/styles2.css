@@ -9,7 +9,7 @@ body {
 height: 50%;
 width: 30%;
 border: 1px solid grey;
-margin-left: 35%;
+margin-left: 15%;
 margin-top: 10%;
 position: relative;
 box-shadow: 21px 12px 24px 10px rgba(255, 255, 255, 0.5);
@@ -50,7 +50,7 @@ border: 1px solid transparent;
 border-radius: .25rem;
 }
 .main{
-margin-top:50px;
+margin-top: 10px;
 }
 
 h1.title {
@@ -80,7 +80,6 @@ padding-top: 3px;
 
 .main-login{
 background-color: #f1ecec;
-/* shadows and rounded borders */
 -moz-border-radius: 2px;
 -webkit-border-radius: 2px;
 border-radius: 2px;
